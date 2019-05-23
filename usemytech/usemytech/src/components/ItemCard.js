@@ -1,14 +1,20 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { editItem, deleteItem } from '../actions';
+import Loader from "react-loader-spinner";
+import { withRouter } from 'react-router-dom'
 
 class ItemCard extends Component {
   state = {
-    deleteItem = null,
-  }
-
-  componentDidMount(){
-   this.props.editItem(this.props.match.params.id)
+    items: {
+      owner: this.props.selectedItem.owner,
+      title: this.props.selectedItem.title,
+      description: this.props.selectedItem.description,
+      type: this.props.selectedItem.type,
+      price: this.props.selectedItem.price,
+      availability: this.props.selectedItem.availability,
+      id: this.props.selectedItem.id 
+    }
   }
 
   handleItemChange = event => {
@@ -22,13 +28,18 @@ class ItemCard extends Component {
 
   editItem = event => {
     event.preventDefault();
-    this.props.editItem(this.state.items)
+    const item = this.state.items
+    console.log(item)
+    this.props.editItem(item)
+      .then(() => {
+        this.props.history.push('/protected')
+      })
   };
 
   render() {
-    console.log('PROPS',this.props)
     return (
       <div>
+          {this.props.selectedItem && 
           <form className='edit-form' onSubmit={this.addItem}>
           Title:{" "}
           <input
@@ -72,14 +83,14 @@ class ItemCard extends Component {
             value={this.state.items.owner}
             onChange={this.handleItemChange}
           />
-          <button>
+          <button onClick={this.editItem}>
             {this.props.editingItem ? (
               <Loader type="ThreeDots" color="#1f2a38" height="12" width="26" />
             ) : (
-              "Add Item"
+              "Update Item"
             )}
           </button>
-        </form>
+        </form>}
       </div>
     );
   }
@@ -88,7 +99,8 @@ class ItemCard extends Component {
 const mapStateToProps = state => ({
   editingItem: state.editingItem,
   error: state.error,
-  item: state.item,
+  selectedItem: {...state.selectedItem},
+  selecting: state.selecting
 });
 
-export default connect(mapStateToProps, { deleteItem, editItem})(ItemCard);
+export default connect(mapStateToProps, { deleteItem, editItem})(withRouter(ItemCard));

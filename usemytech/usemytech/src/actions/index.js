@@ -109,12 +109,12 @@ export const EDIT_ITEM_FAILURE = 'EDIT_ITEM_FAILURE';
 
 export const editItem = item => dispatch => {
     dispatch({ type: EDIT_ITEM_START });
-    console.log('ITEM',item.id)
+    console.log('ITEM',item)
     return axios
       .put(`https://usemytechstuffapp.herokuapp.com/api/items/${item.id}`, item, {headers:{ Authorization: localStorage.getItem('token')}})
       .then(res => {
         console.log(res);
-        dispatch({ type: EDIT_ITEM_SUCCESS, payload: res.data });
+        // dispatch({ type: EDIT_ITEM_SUCCESS, payload: res.data });
       })
       .catch(err => {
           console.log(err)
@@ -139,6 +139,17 @@ export const editItem = item => dispatch => {
           dispatch({ type: FETCH_ID_FAILURE, payload: err });
         });
     };
+
+  export const SELECT_ITEM_START = 'SELECT_ITEM_START';
+  export const SELECT_ITEM_SUCCESS = 'SELECT_ITEM_SUCCESS';
+  export const SELECT_ITEM_FAILURE = 'SELECT_ITEM_FAILURE';
+
+  export const selectItem = item => dispatch => {
+          console.log(item)
+          dispatch({ type: SELECT_ITEM_START, payload: "started" });
+          dispatch({ type: SELECT_ITEM_SUCCESS, payload: item });
+    };
+
 
   
 

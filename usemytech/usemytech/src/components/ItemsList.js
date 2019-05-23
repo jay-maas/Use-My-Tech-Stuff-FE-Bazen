@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { fetchItems, deleteItem, fetchId } from "../actions";
+import { fetchItems, deleteItem, fetchId, selectItem } from "../actions";
 import EditForm from './EditForm';
 
 import { withRouter, Redirect } from 'react-router-dom';
@@ -25,7 +25,11 @@ class Items extends Component {
     this.props.fetchItems();
   }
 
-
+  changeRoute = item => {
+    const path = item.id
+    this.props.selectItem(item)
+    this.props.history.push(`item/edit-form/${path}`)
+  }
 
   render() {
    
@@ -41,7 +45,7 @@ class Items extends Component {
             <img src={item.imgURL} />
             <div className="item-info">
               <i className="far fa-times-circle" onClick={() => this.deleteItem(item.id)} /> 
-              <i class="fas fa-edit" />
+              <i class="fas fa-edit" onClick={() => this.changeRoute(item) }/>
               <h2>{item.title}</h2>
               <p>{item.type}</p>
               <p>{item.description}</p>
@@ -68,7 +72,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchItems, deleteItem, fetchId }
+  { fetchItems, deleteItem, fetchId, selectItem }
 )(Items);
 
 // rn(

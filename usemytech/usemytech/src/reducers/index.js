@@ -5,7 +5,8 @@ import {
     FETCH_ITEM_START, FETCH_ITEM_SUCCESS, FETCH_ITEM_FAILURE,
     DELETE_ITEM_START, DELETE_ITEM_SUCCESS, 
     EDIT_ITEM_START, EDIT_ITEM_SUCCESS, EDIT_ITEM_FAILURE,
-    FETCH_ID_START,FETCH_ID_SUCCESS,FETCH_ID_FAILURE
+    FETCH_ID_START,FETCH_ID_SUCCESS,FETCH_ID_FAILURE,
+    SELECT_ITEM_START,SELECT_ITEM_SUCCESS,
    
 } from '../actions'
 
@@ -22,7 +23,9 @@ const initialState = {
     message: null,
     editingItem: false,
     editingItemId: null,
-    item: null
+    item: null,
+    selectedItem: null,
+    fetching: false
 }
 
 const reducer = ( state = initialState, action ) => {
@@ -115,12 +118,20 @@ const reducer = ( state = initialState, action ) => {
         return {
             ...state,
             editingItem: true,
+            error: ""
         }
         case EDIT_ITEM_SUCCESS:
         return {
             ...state,
             editingItem: false,
-            items: action.payload
+            items: action.payload,
+            error: ''
+        }
+        case EDIT_ITEM_FAILURE:
+        return {
+            ...state,
+            editingItem: false,
+            error: action.payload
         }
         case FETCH_ID_START:
         return {
@@ -139,7 +150,19 @@ const reducer = ( state = initialState, action ) => {
             fetchingItems: false,
             error: action.payload 
         }
-
+        case SELECT_ITEM_START:
+        return {
+            ...state,
+            selecting: true,
+            error: ''
+        }
+        case SELECT_ITEM_SUCCESS:
+        return {
+            ...state,
+            selecting: false,
+            selectedItem: action.payload,
+            error: '' 
+        }
         default: 
         return state;
     }
