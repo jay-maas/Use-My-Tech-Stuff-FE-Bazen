@@ -40,6 +40,13 @@ const reducer = ( state = initialState, action ) => {
             token: action.payload.token,
             owner: action.payload.id
         }
+        case LOGIN_FAILURE:
+        return {
+            ...state,
+            loggingIn: false,
+            error: action.payload
+        }
+        
         case SIGNUP_START:
         return{
             ...state,

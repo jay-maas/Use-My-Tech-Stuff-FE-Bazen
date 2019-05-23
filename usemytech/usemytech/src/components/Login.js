@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
-
+import { withRouter } from 'react-router-dom'
 import { login } from '../actions';
 
 
@@ -31,7 +31,13 @@ class Login extends Component {
       this.props.history.push('/protected'));
   };
 
+  changeRoute = () => {
+    let path = "/signup"
+    this.props.history.push(path)
+  }
+
   render() {
+    console.log(this.props.error)
     return (
       <div className='login-form'>
         
@@ -63,6 +69,8 @@ class Login extends Component {
             )}
             </button>
         </form>
+        {this.props.error && <p>{this.props.error}</p>}
+        <button onClick={this.changeRoute}>Register</button>
       </div>
     );
   }
@@ -74,4 +82,4 @@ const mapStateToProps = ({ error, loggingIn }) => ({
   loggingIn
 })
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login })(withRouter(Login))

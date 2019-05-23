@@ -26,7 +26,7 @@ import { signUp } from '../actions';
    signup = event => {
      event.preventDefault();
      this.props.signUp(this.state.user)
-     .then(() => this.props.history.push('/login'))
+     .then(() => this.props.history.push('/'))
    }
 
   render() {

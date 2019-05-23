@@ -8,7 +8,6 @@ class ItemCard extends Component {
   }
 
   componentDidMount(){
- 
    this.props.editItem(this.props.match.params.id)
   }
 

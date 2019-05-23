@@ -25,11 +25,11 @@ class App extends Component {
             </div>
           </header>
 
-          <Route path="/login" component={Login} />
+          <Route exact path="/" component={Login} />
           <PrivateRoute exact path="/protected" component={ItemsList} />
           <PrivateRoute exact path="/item-form" component={AddItemForm} />
           <PrivateRoute  exact path="/item/edit-form/:id" component={EditForm} />
-          <Route path="/signup" component={SignUp} />
+          <Route exact path="/signup" component={SignUp} />
           
         </div>
       </Router>
